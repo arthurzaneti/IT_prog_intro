@@ -1,17 +1,28 @@
-import numpy as np
 
-def relatively_prime(p,q):
-    n_to_check = np.arange(2, min(p,q) + 1)
-    while(n_to_check.size != 0):
-        k = n_to_check[0]
-        if(p % k == 0):
-            if(q % k == 0):
-                return(False)
-        n_to_check = n_to_check[n_to_check % k != 0]
-    return(True) 
+def relatively_prime(p,q): #Euclid's algorithm 
+    # Apenas garantindo r = p <= q para começar o algoritmo
+    if (p > q):
+        aux = p
+        p = q
+        q = aux
+        r = q
+    else: 
+        r = p
+
+    #O algoritmo de fato
+    while r > 1:
+        r = q % p
+        q = p
+        p = r
+        
+    if(r == 0):
+        return False
+    if(r == 1):
+        return True
+    else:
+        print("Problema na execução do algoritmo")
 
 """
-print(relatively_prime(101, 202))
-print(relatively_prime(7853, 7817))
-print(relatively_prime(2*7853, 8*7817))
+print(relatively_prime(10**10,9**10))
+print(relatively_prime(100,40))
 """

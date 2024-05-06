@@ -10,7 +10,7 @@ for i in range(len(l)):
 
 x = "OLA"
 l = [10, 11, x , 13, "Ola", "casa", "carro", "pé"]
-i = 1
+i = 0
 while l[i] != "carro":
     print(l[i])
     i+=1
