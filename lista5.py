@@ -150,6 +150,75 @@ def potencia(x, power):
     if(power_negative):
         return(1/xp)
     return(xp)
-print(potencia(3, -42))
+
+#______________________________________________________4_________________________________________________
+
+# O algoritmo que criei sozinho não conseguiu atinger O(n)
+# Essa função find_non_doubled_integer é O(max(n, M)) onde M é a diferença entre o máximo e o mínimo da lista enviada.
+# O algoritmo funciona da seguinte forma:
+"""
+    É enviada uma lista, digamos [-3,2, -3, 2, 0], eu adiciono o mínimo da lista a todos os elementos para obter a nova lista
+[0, 5, 0, 5, 3], faço isso para padronizar sempre trabalhar com números inteiros positivos. Depois crio uma lista elem_counter de tamanho
+M+1 onde a sua i-ésima posição é o número de vezes que apareçeu o número i na lista l. Por fim procuro o primeiro indice na lista elem_counter
+onde o i-ésimo termo não é 0 ou 2, assim achando o termo sem par. Retorno esse número desfazendo a padronização inicial.
+""" 
+def find_non_doubled_integer(l):
+    shift = min(l)
+    M = max(l) - shift
+    element_counter = [0] * (M + 1)
+    for i in range(len(l)):
+        l[i] -=shift
+        element_counter[l[i]] += 1
+    
+    for i in range(len(element_counter)):
+        if(element_counter[i] != 2 and element_counter[i] != 0):
+            return i+shift
+    
+    print("No non doubled integer found")
+
+# Esse algoritmo foi ideia que obti no fórum https://stackoverflow.com/questions/71016831/how-is-xor-helping-find-the-unique-value
+""" 
+    Aqui usamos a mágica do operador XOR, em particular usamos sua associatividade e comutatividade. Denotando por @ o operador XOR, vale que 
+    n @ n = 0 e n @ 0 = n para qualquer n inteiro, então dada uma lista [1,2,2,1,3]:
+
+                    1 @ 2 @ 2 @ 1 @ 3 = (2 @ 2) @ (1 @ 1) @ 3 = 0 @ 3 = 3
+
+    Então realizar a operação XOR entre todos elementos da lista
+"""
+def find_unique_integer(l):
+    unique = 0
+    for num in l:
+        unique ^= num
+    return unique
+
+# O problema potencial desse algoritmo é que ele não lida com o caso em que a lista tem 4 vezes um elemento, apenas deteca os casos
+#em que tem um número aparecendo uma quantidade ímpar de vezes. Por exemplo
+#find_unique_integer([2,2,3,3,3,3]) -> 0 
+# Por isso o nome foi adaptado para find_UNIQUE_integer
+
+
+#_______________________________________________________5_____________________________________________________________
+
+"""
+    Aqui eu simplesmente pego o j-ésimo caracter da primeira palavra da lista e vejo se ele é igual ao de todas as outras, se for eu 
+adiciono ao biggest_prefix, se não for pra alguma palavra imediatamente retorno o biggest prefix.
+    Essa é a função mais simples que faz o solicitado, mas ela é O(nk) no pior dos casos (todas palavras são iguais) onde n é o número de 
+palavras na lista e k o tamanho da menor delas. Talvez seja possível um algoritmo com pior caso em O(log(n)k), mas não tenho certeza.
+"""
+def find_biggest_prefix1(l):
+    biggest_prefix = ""
+    j = 0
+    while(True):
+        try:
+            char = l[0][j]
+            for i in range(len(l)):
+                if(l[i][j] != char):
+                    return(biggest_prefix)
+            biggest_prefix += char
+            j += 1
+        except:
+            return biggest_prefix
+
+print(find_biggest_prefix1(["ab", "ab", "abc"]))
 
 
