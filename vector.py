@@ -9,12 +9,18 @@ class Vector:
             return vector_sum
         except ValueError:
             return None
+    
+    def __sub__(self, v2):
+        try:
+            return Vector(self.coord - v2.coord)
+        except ValueError:
+            return None
 
     def __mul__(self, a):
         if type(self) == type(a):
             return(sum(self.coord * a.coord)) 
         else:
-            return(self.coord * a)
+            return(Vector(self.coord * a))
     
     def __rmul__(self, a):
         return(self * a)
@@ -23,12 +29,17 @@ class Vector:
         return((self.coord == v2.coord).all())
 
     def __neg__(self):
-        return(self.coord * -1)   
+        return(Vector(self.coord * -1))   
     
     def __str__(self):
         return(str(self.coord))
-
+    
+    def __abs__(self):
+        s = 0
+        for coord in self.coord:
+            s += coord**2
+        return(np.sqrt(s))
 v1 = Vector(np.array([1,2]))
-v2 = Vector(np.array([1,2]))
+v2 = Vector(np.array([1,3]))
 
-print(v1 + v2)
+print(v1 - v2)
