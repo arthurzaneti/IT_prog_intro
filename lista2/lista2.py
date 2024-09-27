@@ -71,7 +71,42 @@ class MyArray:
 #o tamanho do array se torna ceil(1.125 * self.size + 3) para self.size de 1 a 9 e ceil(1.125 * self.size + 6) para 
 #self.size > 9.
 
+# Aqui é um teste da inserção e remoção comparando com o a lista do Python. Acabou que minha remoção ficou horrível.
+"""
+import timeit
+
+m = MyArray(1)
+l = list([1])
+time_m = timeit.default_timer()
+for i in range(100000):
+    m.append(1)
+print(f"Tempo de inserção MyArray: {timeit.default_timer() - time_m}")
+
+time_l = timeit.default_timer()
+for i in range(100000):
+    l.append(1)
+print(f"Tempo de inserção lista do Python: {timeit.default_timer() - time_l}")
+
+time_m = timeit.default_timer()
+for i in range(500):
+    m.remove(0)
+print(f"Tempo de remoção MyArray: {timeit.default_timer() - time_m}")
+
+time_l = timeit.default_timer()
+for i in range(500):
+    l.pop(0)
+print(f"Tempo de remoção MyArray: {timeit.default_timer() - time_l}")
+
+"""
 #________________________2__________________________
-class Torus(MyArray):
+class Torus(np.ndarray):
+    def __new__(cls, input_array):
+        obj = np.asarray(input_array).view(cls)
+        return(obj)
+    
     def __getitem__(self, index):
-        return(self.array[index % self.used_size])
+        # Tudo de interessante do toro é esse método __getitem__
+        return(super().__getitem__(index % len(self)))
+
+
+
