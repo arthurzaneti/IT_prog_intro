@@ -142,4 +142,41 @@ root.sons[0].add_son(FTree(12))
 root.sons[0].add_son(FTree(13))
 
 #print(root.depth_search(13))
-print(root.breadth_search(13))
+#print(root.breadth_search(13))
+
+#___________________________________________________4_________________________________________________________
+
+import scipy as sp
+
+def random_values(N, distrib):
+    if distrib == "Uniform":
+        rvs = sp.stats.uniform.rvs(size = 2*N, loc = -1, scale = 2)
+    if distrib == "Normal":
+        rvs = sp.stats.norm.rvs(size = 2*N, loc = 0, scale = 0.5)
+    if distrib == "Student t":
+        """
+        Na lista pede média 0 e variância 0.5 mas a student tem como parâmetro só graus de liberdade \ni
+        Segundo o wikipédia a média da Student t é sempre 0 independente \ni, mas a variância é \ni/(\ni - 2)
+        para \ni > 2, em particular é sempre maior que 1 > 0.5. Enfim, falei com o professor presêncialmente
+        e ele disse para mim não me preocupar então coloquei, arbitrariamente, \ni como 1.
+        """
+        rvs = sp.stats.t.rvs(size = 2*N, df = 1)
+    return np.reshape(rvs, (N,2))
+
+#print(random_values(10, "Student t"))
+
+#___________________________________________________5_________________________________________________________
+def ConvexHull(points):
+    convexhull = sp.spatial.ConvexHull(points)
+    indices = convexhull.vertices
+    l = []
+    for i in indices:
+        l.append(points[i])
+    return(l)
+
+points = random_values(10, "Normal")
+print(ConvexHull(points))
+    
+
+    
+    
