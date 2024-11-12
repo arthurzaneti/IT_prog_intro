@@ -34,6 +34,7 @@ def minimum_spanning_tree(points):
         edges.append(min_edge[0])
     return(edges)
 #Teste do chatgpt:
+
 def test_larger_minimum_spanning_tree():
     # Define points as Vector objects in a known configuration
     points = [
@@ -59,7 +60,55 @@ def test_larger_minimum_spanning_tree():
     print("Edges:", [(str(edge[0]), str(edge[1])) for edge in edges])  # Print edges for clarity
 
    
-test_larger_minimum_spanning_tree()
+#test_larger_minimum_spanning_tree()
+
+#Não fiz a b e c ainda mas certamente meu algoritmo não é optimo
+
 #______________________________________3__________________________________________
+import scipy as sp
+from root_finder import bissect, Interval, RealFunction
+
+x = [15, 9, 5, 3, -2, -5, -15]
+y = [200, 400, 600, 800, 1000, 1200, 1400]
+
+poly = sp.interpolate.lagrange(x, y)
+#print(poly(0))
+
+f = RealFunction(f = lambda x: poly(x) - 700, domain = Interval(-15, 15))
+
+root = bissect(f, Interval(15, -15))
+#print(root.min, poly(root.min)) #Lado esquerdo do intervalo mas podia ser qualquer ponto nele
+
+"""Devo dizer que não sei se eu podia usar o scipy e o root_finder nesse exercício,
+mas enfim, acho que entendi o código do root_finder melhor usando ele aqui então acho
+que pelo aprendizado valeu a pena. Especialmente essa ideia de uma classe para Intervalos
+e funções reais é nova para mim."""
 #______________________________________4__________________________________________
+from root_finder import newton_root, grid_search
+
+def g1(x):
+    return x**3 - x
+def g1_prime(x):
+    return 3*x**2 - 1
+def g2(x):
+    return np.exp(x) - x**2 + 5
+def g2_prime(x):
+    return np.exp(x) - 2*x 
+"""
+G1 = RealFunction(g1, g1_prime, Interval(-100, 100))
+G2 = RealFunction(g2, g2_prime, domain = Interval(-10, 10))
+root1_1_newton = newton_root(G1, Interval(0.5, 1.5)) 
+root1_2_newton = newton_root(G1, Interval(-0.5, 0.5)) 
+root2_newton = newton_root(G2, Interval(-10, 10))
+
+print(root1_1_newton, root1_2_newton, root2_newton)
+
+#Ja dei um exemplo usando bissect no exercício 3 mas aqui vai outro
+
+search_space = grid_search(G2, grid_freq=20)
+root2_bissec = bissect(G2, search_space)
+print(root2_bissec)
+
+"""
 #______________________________________5__________________________________________
+

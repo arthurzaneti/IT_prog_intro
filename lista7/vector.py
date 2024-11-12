@@ -39,7 +39,4 @@ class Vector:
         for coord in self.coord:
             s += coord**2
         return(np.sqrt(s))
-v1 = Vector(np.array([1,2]))
-v2 = Vector(np.array([1,3]))
 
-print(v1 - v2)
