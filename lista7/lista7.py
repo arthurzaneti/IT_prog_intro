@@ -62,7 +62,19 @@ def test_larger_minimum_spanning_tree():
    
 #test_larger_minimum_spanning_tree()
 
-#Não fiz a b e c ainda mas certamente meu algoritmo não é optimo
+"""
+É essêncialmente impossível fazer um algoritmo que crie a minimum spanning tree que não realize 
+em nenhum momento qualquer tipo de ordenação de arestas. Independente do algoritmo algum tipo de
+ordenação deverá ocorrer e, como um grafo conexo com n vértices deve possuir ao menos n-1 arestas,
+o algoritmo é no mínimo omega((n-1)log(n-1)) = omega(nlogn). 
+
+Não acredito que isso seja uma prova, porque eu não provei que realmente precisamos ordenar as 
+arestas. Mas acho que é uma explicação plausível.
+"""
+
+"""
+Quanto ao meu algoritmo, ele é péssimo. No m-ésimo ponto roda um loop onde ocorrem (m-1)(m+1)
+comparações então o algoritmo é ao menos n**2 e portanto não é optimo (talvez n**3?)"""
 
 #______________________________________3__________________________________________
 import scipy as sp
@@ -71,12 +83,12 @@ from root_finder import bissect, Interval, RealFunction
 x = [15, 9, 5, 3, -2, -5, -15]
 y = [200, 400, 600, 800, 1000, 1200, 1400]
 
-poly = sp.interpolate.lagrange(x, y)
+#poly = sp.interpolate.lagrange(x, y)
 #print(poly(0))
 
-f = RealFunction(f = lambda x: poly(x) - 700, domain = Interval(-15, 15))
+#f = RealFunction(f = lambda x: poly(x) - 700, domain = Interval(-15, 15))
 
-root = bissect(f, Interval(15, -15))
+#root = bissect(f, Interval(15, -15))
 #print(root.min, poly(root.min)) #Lado esquerdo do intervalo mas podia ser qualquer ponto nele
 
 """Devo dizer que não sei se eu podia usar o scipy e o root_finder nesse exercício,
@@ -112,3 +124,34 @@ print(root2_bissec)
 """
 #______________________________________5__________________________________________
 
+from poly_interpolant import scipy_interpolater, VandermondeMatrix
+from time import perf_counter # Descobri essa função útil
+import matplotlib.pyplot as plt
+
+times_scipy = []
+times_Vandermonde = []
+"""
+for i in range(int(1e2)):
+    x = np.sort(np.random.uniform(i, -i, i))
+    y = np.sort(np.random.uniform(i, -i, i))
+    start_time = perf_counter()
+    scipy_interpolater(x, y)
+    end_time = perf_counter()
+    times_scipy.append(end_time - start_time)
+
+    start_time = perf_counter()
+    VandermondeMatrix(x, y)
+    end_time = perf_counter()
+    times_Vandermonde.append(end_time - start_time)
+
+indices = list(range(int(1e2)))
+
+plt.plot(indices, times_scipy, label="scipy_interpolater", color="blue", marker="o")
+plt.plot(indices, times_Vandermonde, label="VandermondeMatrix", color="red", marker="x")
+plt.title("Performance por métodos de interpolação")
+plt.legend()
+plt.grid(True)
+plt.show()
+"""
+
+# E o método da matrix de Vandermonde aparentemente é muito melhor...
